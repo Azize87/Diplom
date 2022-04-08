@@ -9,13 +9,12 @@ import ru.netology.data.Database;
 import ru.netology.page.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.*;
 
 public class CreditCardBayTourTest {
 
-    //Database database = new Database(System.getProperty("dbUrl"), System.getProperty("dbUser"), System.getProperty("dbPass"));
-    Database database = new Database("jdbc:mysql://localhost:3306/db", System.getProperty("dbUser"), System.getProperty("dbPass"));
+    Database database = new Database(System.getProperty("dbUrl"), System.getProperty("dbUser"), System.getProperty("dbPass"));
+    //Database database = new Database("jdbc:mysql://localhost:3306/db", System.getProperty("dbUser"), System.getProperty("dbPass"));
 
     @BeforeEach
     void setup() {
@@ -25,6 +24,7 @@ public class CreditCardBayTourTest {
         database.clearDB();
     }
 
+    // Не верная запись в базе, не заполнено поле credit_id, вместо него заполняется payment_id
     @Test
     void shouldByWithCreditCardSuccess() {
 
@@ -37,8 +37,10 @@ public class CreditCardBayTourTest {
         creditCardPage.successMessageForm();
 
         assertEquals("APPROVED", database.getCreditCardTransactionStatus());
+        assertNotNull(database.getCreditCardOrderEntityCreditIdStatus());
     }
 
+    //Не верное сообщение, ожидаемое Ошибка...
     @Test
     void shouldByWithCreditCardError() {
 
@@ -50,13 +52,15 @@ public class CreditCardBayTourTest {
         creditCardPage.errorMessageForm();
 
         assertEquals("DECLINED", database.getCreditCardTransactionStatus());
+        assertNotNull(database.getCreditCardOrderEntityCreditIdStatus());
     }
 
 
 
     // sad path  Поле "Владелец"
 
-    // Баг. Неверное сообщение об успешности операции, при заполнении Владелец одной буквой. Запрос уходит на сервер при неверном заполнении поля Владелец.
+    // Баг. Неверное сообщение об успешности операции, при заполнении Владелец одной буквой.
+    // Запрос уходит на сервер при неверном заполнении поля Владелец.
     @Test
     void shouldBuyWithOneLetterOwnerError() {
 
@@ -72,8 +76,7 @@ public class CreditCardBayTourTest {
     }
 
 // баг. неверное сообщение об успешности операции , при заполнении Владелец на кириллице.
-//Неверный формат
-
+//Неверный формат + не верное сообщение, пишет операция одобрена банком
     @Test
     void shouldBuyWithCyrillicLetterOwnerError() {
 
@@ -90,7 +93,6 @@ public class CreditCardBayTourTest {
 
     // баг. неверное сообщение об успешности операции, при заполнении Владелец символами
     //Неверный формат
-
     @Test
     void shouldBuyWithSymbolsOwnerError() {
 
@@ -371,6 +373,7 @@ public class CreditCardBayTourTest {
 
     // поле CVC/CVV не заполнено
     // Сообщение должно быть: Поле обязательно для заполнения
+    // Под полем владелец не должно быть валидационной ошибки
     @Test
     void shouldErrorWithEmptyCodeField() {
 
@@ -387,6 +390,8 @@ public class CreditCardBayTourTest {
     }
 
     // отправка пустой формы
+    // не верные валидационные сообщения
+    // правильное только под полем владелец
     @Test
     void shouldErrorWithEmptyFields() {
 

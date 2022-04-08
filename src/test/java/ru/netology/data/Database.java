@@ -25,8 +25,18 @@ public class Database {
     }
 
     @SneakyThrows
+    public String getDebitCardOrderEntityPaymentIdStatus(){
+        return runner.query(connection, "select payment_id from order_entity", new ScalarHandler<>());
+    }
+
+    @SneakyThrows
     public String getCreditCardTransactionStatus(){
         return runner.query(connection, "select status from credit_request_entity", new ScalarHandler<>());
+    }
+
+    @SneakyThrows
+    public String getCreditCardOrderEntityCreditIdStatus(){
+        return runner.query(connection, "select credit_id from order_entity", new ScalarHandler<>());
     }
 
     @SneakyThrows

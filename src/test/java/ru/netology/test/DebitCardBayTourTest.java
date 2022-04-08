@@ -9,8 +9,7 @@ import ru.netology.data.Database;
 import ru.netology.page.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.*;
 
 public class DebitCardBayTourTest {
 
@@ -39,6 +38,7 @@ public class DebitCardBayTourTest {
         debitCardPage.successMessageForm();
 
         assertEquals("APPROVED", database.getDebitCardTransactionStatus());
+        assertNotNull(database.getDebitCardOrderEntityPaymentIdStatus());
     }
 
     // баг. неверное сообщение об успешности операции
@@ -54,6 +54,7 @@ public class DebitCardBayTourTest {
         debitCardPage.errorMessageForm();
 
         assertEquals("DECLINED", database.getDebitCardTransactionStatus());
+        assertNotNull(database.getDebitCardOrderEntityPaymentIdStatus());
     }
 
 
