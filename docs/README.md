@@ -14,7 +14,7 @@
 *PostgreSQL: в новом окне терминала запустить SUT командой `java -jar artifacts/aqa-shop.jar --spring.profiles.active=postgresql`*
 
 ### *Запуск тестов :*
- Для БД MySQL: в новом окне терминала запустить тесты командой `./gradlew test -DdbUrl=jdbc:mysql://localhost:3306/db`
+ *Для БД MySQL: в новом окне терминала запустить тесты командой `./gradlew test -DdbUrl=jdbc:mysql://localhost:3306/db`*
  
- Для БД PostgreSQL: в новом окне терминала запустить тесты командой `./gradlew test -DdbUrl=jdbc:postgresql://localhost:5432/db`
+ *Для БД PostgreSQL: в новом окне терминала запустить тесты командой `./gradlew test -DdbUrl=jdbc:postgresql://localhost:5432/db`*
 
