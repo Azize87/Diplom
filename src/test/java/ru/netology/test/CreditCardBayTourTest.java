@@ -39,6 +39,7 @@ public class CreditCardBayTourTest {
         assertEquals("APPROVED", database.getCreditCardTransactionStatus());
     }
 
+    // в базе не создается запись
     @Test
     void shouldByWithCreditCardError() {
 
